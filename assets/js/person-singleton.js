@@ -26,8 +26,8 @@ class PersonSingleton {
     };
     request.onsuccess = function(event) {
       const db = event.target.result;
-      const transaction = db.transaction(["people"], "readwrite");
-      const store = transaction.objectStore("people");
+      const transaction = db.transaction(["PersonDB"], "readwrite");  //  people
+      const store = transaction.objectStore("PersonDB");  //  people
       store.add(person);
       console.log("Persona salvata con successo nel database.");
     };
