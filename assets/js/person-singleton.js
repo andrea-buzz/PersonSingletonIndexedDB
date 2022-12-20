@@ -21,13 +21,23 @@ class PersonSingleton {
 
   savePerson(person) {
     const request = window.indexedDB.open("PersonDB", 1);
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+
+      db.onerror = (event) => {
+        console.log( "Error loading database.");
+      };
+      const objectStore = db.createObjectStore("people", {}); //  { keyPath: "taskTitle" }
+      objectStore.createIndex("name", { unique: false });
+    }
+    
     request.onerror = function(event) {
       console.log("Errore nell'apertura del database: " + event.target.errorCode);
     };
     request.onsuccess = function(event) {
       const db = event.target.result;
-      const transaction = db.transaction(["PersonDB"], "readwrite");  //  people
-      const store = transaction.objectStore("PersonDB");  //  people
+      const transaction = db.transaction(["people"], "readwrite");  //  people
+      const store = transaction.objectStore("people");  //  people
       store.add(person);
       console.log("Persona salvata con successo nel database.");
     };
