@@ -27,7 +27,7 @@ class PersonSingleton {
       db.onerror = (event) => {
         console.log( "Error loading database.");
       };
-      const objectStore = db.createObjectStore("people", { keyPath: 'id', autoIncrement: true ); 
+      const objectStore = db.createObjectStore("people", { keyPath: 'id', autoIncrement: true } ); 
       objectStore.createIndex("id", { unique: true });
       objectStore.createIndex("name", { unique: false });
     }
